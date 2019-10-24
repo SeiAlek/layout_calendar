@@ -1,3 +1,84 @@
+$day-week: (
+  "mon": 0,
+  "tue": 1,
+  "wed": 2,
+  "thu": 3,
+  "fri": 4,
+  "sat": 5,
+  "sun": 6
+);
+$days-in-month: 28, 29, 30, 31;
+
+$size: 100;
+$gap: 1;
+$calendar-width: #{($size + $gap) * 7};
+$border-size: 1;
+$scale: 1.2;
+$duration: 0.5;
+
+$ff: "Arial";
+$fz: 30px;
+$color: #000;
+$bg: #eee;
+$bg-hover: pink;
+$border: #{$border-size}px solid #000;
+
 body {
   margin: 0;
+}
+
+.calendar {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 auto;
+  width: #{$calendar-width}px;
+
+  > div {
+    display: none;
+    position: relative;
+    width: #{$size}px;
+    height: #{$size}px;
+    margin: 0 #{$gap}px #{$gap}px 0;
+    box-sizing: border-box;
+
+    color: $color;
+    font-family: $ff;
+    font-size: $fz;
+    background-color: $bg;
+    border: $border;
+
+    &:hover {
+      background-color: $bg-hover;
+      transform: scale(#{$scale});
+      transition: background-color #{$duration}s, transform #{$duration}s;
+      z-index: 1;
+      cursor: pointer;
+    }
+
+    &::after {
+      display: block;
+      line-height: #{$size}px;
+      text-align: center;
+    }
+  }
+}
+
+@for $day from 1 to 32 {
+  .calendar div:nth-child(#{$day})::after {
+    content: "#{$day}";
+  }
+}
+
+@each $days in $days-in-month {
+  @for $day from 1 to $days + 1 {
+    .calendar-#{$days} div:nth-child(#{$day}) {
+      display: block;
+    }
+  }
+}
+
+@each $day, $num in $day-week {
+  .calendar-#{$day} div:first-child {
+    margin-left: #{($size + $gap) * $num}px;
+  }
 }
