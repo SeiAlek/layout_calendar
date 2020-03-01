@@ -1,4 +1,4 @@
-$day-week: (
+$day-of-week: (
   "mon": 0,
   "tue": 1,
   "wed": 2,
@@ -63,22 +63,20 @@ body {
   }
 }
 
-@for $day from 1 to 32 {
-  .calendar div:nth-child(#{$day})::after {
-    content: "#{$day}";
-  }
-}
-
-@each $days in $days-in-month {
-  @for $day from 1 to $days + 1 {
-    .calendar-#{$days} div:nth-child(#{$day}) {
+@each $number-of-days in $days-in-month {
+  @for $day from 1 to $number-of-days + 1 {
+    .calendar div:nth-child(#{$day})::after {
+      content: "#{$day}";
+    }
+    
+    .calendar-#{$number-of-days} div:nth-child(#{$day}) {
       display: block;
     }
   }
 }
 
-@each $day, $num in $day-week {
-  .calendar-#{$day} div:first-child {
-    margin-left: #{($size + $gap) * $num}px;
+@each $day-name, $day-num in $day-of-week {
+  .calendar-#{$day-name} div:first-child {
+    margin-left: #{($size + $gap) * $day-num}px;
   }
 }
