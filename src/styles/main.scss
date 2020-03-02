@@ -68,7 +68,7 @@ body {
     .calendar div:nth-child(#{$day})::after {
       content: "#{$day}";
     }
-    
+
     .calendar-#{$number-of-days} div:nth-child(#{$day}) {
       display: block;
     }
