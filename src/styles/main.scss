@@ -1,4 +1,4 @@
-$day-of-week: (
+$week: (
   "mon": 0,
   "tue": 1,
   "wed": 2,
@@ -7,21 +7,9 @@ $day-of-week: (
   "sat": 5,
   "sun": 6
 );
-$days-in-month: 28, 29, 30, 31;
-
 $size: 100;
 $gap: 1;
 $calendar-width: #{($size + $gap) * 7};
-$border-size: 1;
-$scale: 1.2;
-$duration: 0.5;
-
-$ff: "Arial";
-$fz: 30px;
-$color: #000;
-$bg: #eee;
-$bg-hover: pink;
-$border: #{$border-size}px solid #000;
 
 body {
   margin: 0;
@@ -34,23 +22,22 @@ body {
   width: #{$calendar-width}px;
 
   > div {
-    display: none;
     position: relative;
     width: #{$size}px;
     height: #{$size}px;
     margin: 0 #{$gap}px #{$gap}px 0;
     box-sizing: border-box;
 
-    color: $color;
-    font-family: $ff;
-    font-size: $fz;
-    background-color: $bg;
-    border: $border;
+    color: #000;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 30px;
+    background-color: #eee;
+    border: 1px solid #000;
 
     &:hover {
-      background-color: $bg-hover;
-      transform: scale(#{$scale});
-      transition: background-color #{$duration}s, transform #{$duration}s;
+      background-color: pink;
+      transform: scale(1.2);
+      transition: background-color 0.5s, transform 0.5s;
       z-index: 1;
       cursor: pointer;
     }
@@ -63,19 +50,21 @@ body {
   }
 }
 
-@each $number-of-days in $days-in-month {
-  @for $day from 1 to $number-of-days + 1 {
-    .calendar div:nth-child(#{$day})::after {
-      content: "#{$day}";
+@for $day from 0 to 31 {
+  .calendar div:nth-child(#{$day + 1})::after {
+    content: "#{$day + 1}";
+  }
+  @if ($day >= 28) {
+    .calendar div:nth-child(#{$day + 1}) {
+      display: none;
     }
-
-    .calendar-#{$number-of-days} div:nth-child(#{$day}) {
+    .calendar-#{$day + 1} div:nth-child(#{$day + 1}) {
       display: block;
     }
   }
 }
 
-@each $day-name, $day-num in $day-of-week {
+@each $day-name, $day-num in $week {
   .calendar-#{$day-name} div:first-child {
     margin-left: #{($size + $gap) * $day-num}px;
   }
